@@ -17,4 +17,7 @@ $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['main'] = 'Trang chính';
 $lang_module['config'] = 'Cấu hình';
-$lang_module['save'] = 'Save';
+$lang_module['save'] = 'Lưu thay đổi';
+
+$lang_module['config_work_groups'] = 'Nhóm được phép truy cập';
+$lang_module['config_admin_groups'] = 'Nhóm quản lý';

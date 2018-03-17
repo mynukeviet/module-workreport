@@ -15,3 +15,5 @@ $allow_func = array(
     'main',
     'config'
 );
+
+$array_config = $module_config[$module_name];
