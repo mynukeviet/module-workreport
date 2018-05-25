@@ -6,7 +6,6 @@
  * @Copyright (C) 2018 mynukeviet. All rights reserved
  * @Createdate Fri, 16 Mar 2018 14:11:35 GMT
  */
-
 if (!defined('NV_SYSTEM')) die('Stop!!!');
 
 define('NV_IS_MOD_WORKREPORT', true);
@@ -18,29 +17,22 @@ if (!defined('NV_IS_USER')) {
 
 $array_config = $module_config[$module_name];
 
+if (!isset($site_mods['workforce'])) {
+    $workforce_list = array();
+    $where = !empty($array_config['work_groups']) ? ' AND userid IN (SELECT userid FROM ' . NV_USERS_GLOBALTABLE . '_groups_users WHERE group_id IN (' . $array_config['work_groups'] . '))' : '';
+    $result = $db->query('SELECT userid, first_name, last_name, username FROM ' . NV_USERS_GLOBALTABLE . ' WHERE active=1' . $where);
+    while ($row = $result->fetch()) {
+        $row['fullname'] = nv_show_name_user($row['first_name'], $row['last_name'], $row['username']);
+        $workforce_list[$row['userid']] = $row;
+    }
+}
+
 $user_groups = array();
 if (defined('NV_IS_USER')) {
     $result = $db->query('SELECT group_id FROM ' . NV_USERS_GLOBALTABLE . '_groups_users WHERE userid=' . $user_info['userid']);
     while (list ($group_id) = $result->fetch(3)) {
         $user_groups[] = $group_id;
     }
-}
-
-$is_admin = 0;
-if (!empty($array_config['admin_groups']) && !empty(array_intersect($user_groups, explode(',', $array_config['admin_groups'])))) {
-    $is_admin = 1;
-}
-
-$count = 0;
-if (!empty($array_config['work_groups'])) {
-    $count = $db->query('SELECT COUNT(*) FROM ' . NV_USERS_GLOBALTABLE . '_groups_users WHERE userid = ' . $user_info['userid'] . ' AND group_id IN (' . $array_config['work_groups'] . ')')->fetchColumn();
-}
-
-if (!$is_admin && empty($count)) {
-    $contents = nv_theme_alert($lang_module['title_no_premission'], $lang_module['content_no_premission'], 'danger');
-    include NV_ROOTDIR . '/includes/header.php';
-    echo nv_site_theme($contents);
-    include NV_ROOTDIR . '/includes/footer.php';
 }
 
 function nv_check_action($addtime)
@@ -51,4 +43,50 @@ function nv_check_action($addtime)
         return true;
     }
     return false;
+}
+
+function nv_workreport_premission($type = 'where')
+{
+    global $db, $module_data, $array_config, $user_info, $workforce_list;
+
+    $array_userid = array(); // mảng chứa userid mà người này được quản lý
+
+    // nhóm quản lý thấy tất cả
+    $group_manage = !empty($array_config['admin_groups']) ? explode(',', $array_config['admin_groups']) : array();
+    if (empty(array_intersect($group_manage, $user_info['in_groups']))) {
+
+        // kiểm tra tư cách trong nhóm (trưởng nhóm / thành viên nhóm)
+        $count = 0;
+        $result = $db->query('SELECT * FROM ' . NV_USERS_GLOBALTABLE . '_groups_users WHERE is_leader=1 AND approved=1 AND userid=' . $user_info['userid']);
+        while ($row = $result->fetch()) {
+            $array_userid = array();
+            // lấy danh sách userid thuộc nhóm do người này quản lý
+            $_result = $db->query('SELECT userid FROM ' . NV_USERS_GLOBALTABLE . '_groups_users WHERE approved=1 AND group_id=' . $row['group_id']);
+            while (list ($userid) = $_result->fetch(3)) {
+                $count++;
+                $array_userid[$userid] = $userid;
+            }
+        }
+
+        $array_userid = array_unique($array_userid);
+
+        if ($type == 'where') {
+            if ($count > 0) {
+                // nếu là trưởng nhóm, thấy nhân viên do mình quản lý
+                $array_userid = implode(',', $array_userid);
+                return ' AND userid IN (' . $array_userid . ')';
+            } else {
+                return ' AND (userid=' . $user_info['userid'] . ')';
+            }
+        } elseif ($type == 'array_userid') {
+            return $array_userid;
+        }
+    } else {
+        $array_userid = array_keys($workforce_list);
+        if ($type == 'where') {
+            return ' AND userid IN (' . implode(',', $array_userid) . ')';
+        } elseif ($type == 'array_userid') {
+            return array_keys($workforce_list);
+        }
+    }
 }

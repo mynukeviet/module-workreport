@@ -1,4 +1,6 @@
 <!-- BEGIN: main -->
+<link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
+<link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2-bootstrap.min.css">
 <div class="well">
     <form action="{ACTION}" method="get">
         <!-- BEGIN: no_rewrite -->
@@ -17,7 +19,7 @@
             <!-- BEGIN: users -->
             <div class="col-xs-24 col-md-6">
                 <div class="form-group">
-                    <select class="form-control" name="userid">
+                    <select class="form-control select2" name="userid">
                         <!-- BEGIN: loop -->
                         <option value="{USER.userid}"{USER.selected}>{USER.fullname}</option>
                         <!-- END: loop -->
@@ -102,8 +104,14 @@
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/i18n/{NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript">
     //<![CDATA[
+    $('.select2').select2({
+        theme : 'bootstrap'
+    });
+    
     $("#fortime").datepicker({
         dateFormat : "dd/mm/yy",
         changeMonth : true,

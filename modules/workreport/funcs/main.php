@@ -7,7 +7,6 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Thu, 16 Nov 2017 13:47:46 GMT
  */
-
 if (!defined('NV_IS_MOD_WORKREPORT')) die('Stop!!!');
 
 if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_request('delete_checkss', 'get')) {
@@ -103,14 +102,6 @@ $array_search = array(
     'userid' => $nv_Request->get_int('userid', 'get', 0)
 );
 
-if ($is_admin) {
-    $result = $db->query('SELECT t1.userid, username, last_name, first_name FROM ' . NV_USERS_GLOBALTABLE . ' t1 INNER JOIN ' . NV_USERS_GLOBALTABLE . '_groups_users t2 ON t1.userid=t2.userid WHERE t2.group_id IN (' . $array_config['work_groups'] . ')');
-    while ($_row = $result->fetch()) {
-        $_row['fullname'] = nv_show_name_user($_row['first_name'], $_row['last_name'], $_row['username']);
-        $array_users[$_row['userid']] = $_row;
-    }
-}
-
 if (!empty($array_search['month'])) {
     $base_url .= '&month=' . $array_search['month'];
     $current_month = $array_search['month'];
@@ -122,6 +113,8 @@ if (!empty($array_search['userid'])) {
 } else {
     $where .= ' AND userid=' . $user_info['userid'];
 }
+
+$where .= nv_workreport_premission();
 
 $db->sqlreset()
     ->select('COUNT(*)')
@@ -186,13 +179,18 @@ for ($i = 1; $i <= 12; $i++) {
     $xtpl->parse('main.month');
 }
 
-if ($is_admin && !empty($array_users)) {
-    foreach ($array_users as $user) {
-        $user['selected'] = $array_search['userid'] == $user['userid'] ? 'selected="selected"' : '';
-        $xtpl->assign('USER', $user);
-        $xtpl->parse('main.users.loop');
+if (!empty($workforce_list)) {
+    $array_userid = nv_workreport_premission('array_userid');
+    if (sizeof($array_userid) > 1) {
+        foreach ($workforce_list as $workforce) {
+            if (in_array($workforce['userid'], $array_userid)) {
+                $workforce['selected'] = $workforce['userid'] == $array_search['userid'] ? 'selected="selected"' : '';
+                $xtpl->assign('USER', $workforce);
+                $xtpl->parse('main.users.loop');
+            }
+        }
+        $xtpl->parse('main.users');
     }
-    $xtpl->parse('main.users');
 }
 
 if (!$global_config['rewrite_enable']) {
