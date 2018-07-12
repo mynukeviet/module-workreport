@@ -27,9 +27,12 @@
                 </div>
             </div>
             <!-- END: users -->
-            <div class="col-xs-12 col-md-3">
+            <div class="col-xs-12 col-md-6">
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" value="{LANG.search_submit}" />
+                    <!-- BEGIN: admin -->
+                    <a class="btn btn-primary" href="{URL_ADMIN}">{LANG.admin}</a>
+                    <!-- END: admin -->
                 </div>
             </div>
         </div>
