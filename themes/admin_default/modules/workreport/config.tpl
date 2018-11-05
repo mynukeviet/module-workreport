@@ -22,6 +22,18 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><strong>{LANG.config_allow_time}</strong></label>
+                <div class="col-sm-21">
+                    <input type="number" name="allow_time" value="{DATA.allow_time}" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><strong>{LANG.config_allow_days}</strong></label>
+                <div class="col-sm-21">
+                    <input type="number" name="allow_days" value="{DATA.allow_days}" class="form-control" />
+                </div>
+            </div>
         </div>
     </div>
     <div class='text-center'>

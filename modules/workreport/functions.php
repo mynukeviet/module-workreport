@@ -35,11 +35,17 @@ if (defined('NV_IS_USER')) {
     }
 }
 
+$is_admin = 0;
+$group_manage = !empty($array_config['admin_groups']) ? explode(',', $array_config['admin_groups']) : array();
+if (!empty(array_intersect($group_manage, $user_info['in_groups']))) {
+    $is_admin = 1;
+}
+
 function nv_check_action($addtime)
 {
     global $array_config, $is_admin;
 
-    if ($is_admin || ($addtime + (30 * 60))) {
+    if ($is_admin || ((NV_CURRENTTIME - $addtime) <= ($array_config['allow_time'] * 60))) {
         return true;
     }
     return false;
@@ -89,4 +95,14 @@ function nv_workreport_premission($type = 'where')
             return array_keys($workforce_list);
         }
     }
+}
+
+function nv_workreport_dateDifference($date_1, $date_2, $differenceFormat = '%a')
+{
+    $datetime1 = date_create($date_1);
+    $datetime2 = date_create($date_2);
+
+    $interval = date_diff($datetime1, $datetime2);
+
+    return $interval->format($differenceFormat);
 }

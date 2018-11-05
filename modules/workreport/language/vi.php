@@ -30,9 +30,13 @@ $lang_module['content'] = 'Nội dung công việc';
 $lang_module['addtime'] = 'Thời gian báo cáo';
 $lang_module['month'] = 'Tháng %d';
 $lang_module['admin'] = 'Xem theo ngày';
+$lang_module['time'] = 'Thời gian làm việc (giờ)';
+$lang_module['worktime'] = 'Tổng thời gian làm việc (giờ): ';
 
 $lang_module['error_required_fortime'] = 'Lỗi: bạn cần nhập dữ liệu cho Ngày báo cáo';
 $lang_module['error_required_content'] = 'Lỗi: bạn cần nhập dữ liệu cho Nội dung công việc';
+$lang_module['error_required_time'] = 'Lỗi: bạn cần nhập dữ liệu cho Thời gian làm việc';
 $lang_module['error_required_fortime'] = 'Lỗi: ngày báo cáo đã có';
+$lang_module['error_allow_fortime'] = 'Lỗi: đã quá thời hạn báo cáo cho ngày %s';
 $lang_module['title_no_premission'] = 'Khu vực không được phép truy cập';
 $lang_module['content_no_premission'] = 'Bạn không được cấp phép để sử dụng tính năng này, vui lòng trở lại';

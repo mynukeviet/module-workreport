@@ -13,13 +13,14 @@ $array_data = array();
 $current_day = nv_date('dmY', NV_CURRENTTIME);
 $current_day = $nv_Request->get_string('time', 'get', nv_date('d/m/Y', NV_CURRENTTIME));
 
-$db->select('userid, content, addtime')
+$db->select('userid, content, addtime, time')
     ->from(NV_PREFIXLANG . '_' . $module_data)
     ->where('DATE_FORMAT(FROM_UNIXTIME(fortime),"%d%m%Y")=' . preg_replace('/[^0-9]+/', '', $current_day));
 
 $sth = $db->query($db->sql());
 
 while ($row = $sth->fetch()) {
+	$row['content'] = nv_nl2br($row['content']);
     $row['addtime'] = nv_date("H:i d/m/Y", $row['addtime']);
     $array_data[$row['userid']] = $row;
 }
@@ -35,6 +36,7 @@ if (!empty($workforce_list)) {
     foreach ($workforce_list as $userid => $user) {
         $user['content'] = isset($array_data[$userid]) ? $array_data[$userid]['content'] : '';
         $user['addtime'] = isset($array_data[$userid]) ? $array_data[$userid]['addtime'] : '';
+        $user['time'] = isset($array_data[$userid]) ? $array_data[$userid]['time'] : '';
         $xtpl->assign('USER', $user);
         $xtpl->parse('main.user');
     }
