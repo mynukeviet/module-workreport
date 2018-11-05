@@ -103,11 +103,11 @@ $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DA
 $where = '';
 $per_page = 31;
 $page = $nv_Request->get_int('page', 'post,get', 1);
-$current_month = date('m', NV_CURRENTTIME);
+$current_month = date('mY', NV_CURRENTTIME);
 $array_users = array();
 
 $array_search = array(
-    'month' => $nv_Request->get_int('month', 'get', date('m', NV_CURRENTTIME)),
+    'month' => $nv_Request->get_string('month', 'get', date('mY', NV_CURRENTTIME)),
     'userid' => $nv_Request->get_int('userid', 'get', $user_info['userid'])
 );
 
@@ -128,7 +128,7 @@ $where .= nv_workreport_premission();
 $db->sqlreset()
     ->select('COUNT(*)')
     ->from(NV_PREFIXLANG . '_' . $module_data . '')
-    ->where('DATE_FORMAT(FROM_UNIXTIME(fortime),"%m")=' . $current_month . $where);
+    ->where('DATE_FORMAT(FROM_UNIXTIME(fortime),"%m%Y")=' . $current_month . $where);
 
 $sth = $db->prepare($db->sql());
 
@@ -190,9 +190,9 @@ $xtpl->assign('TOTAL', $total);
 
 for ($i = 1; $i <= 12; $i++) {
     $xtpl->assign('MONTH', array(
-        'index' => $i,
+        'index' => $i . date('Y', NV_CURRENTTIME),
         'value' => sprintf($lang_module['month'], $i),
-        'selected' => $current_month == $i ? 'selected="selected"' : ''
+        'selected' => $current_month == $i . date('Y', NV_CURRENTTIME) ? 'selected="selected"' : ''
     ));
     $xtpl->parse('main.month');
 }
