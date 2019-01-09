@@ -4,12 +4,19 @@
 <div class="well">
     <form action="{ACTION}" method="get">
         <!-- BEGIN: no_rewrite -->
-        <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}" />
-        <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" />
-        <input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}" />
+        <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}" /> <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" /> <input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}" />
         <!-- END: no_rewrite -->
         <div class="row">
-            <div class="col-xs-24 col-md-6">
+            <div class="col-xs-24 col-md-4">
+                <div class="form-group">
+                    <select class="form-control" name="year">
+                        <!-- BEGIN: year -->
+                        <option value="{YEAR.index}"{YEAR.selected}>{YEAR.value}</option>
+                        <!-- END: year -->
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-24 col-md-4">
                 <div class="form-group">
                     <select class="form-control" name="month">
                         <!-- BEGIN: month -->
@@ -46,14 +53,12 @@
 <form class="form-horizontal" action="{NV_BASE_SITEURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
     <div class="panel panel-default">
         <div class="panel-body">
-            <input type="hidden" name="id" value="{ROW.id}" />
-            <input type="hidden" name="redirect" value="{ROW.redirect}" />
+            <input type="hidden" name="id" value="{ROW.id}" /> <input type="hidden" name="redirect" value="{ROW.redirect}" />
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.fortime}</strong></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="input-group">
-                        <input class="form-control required" type="text" name="fortime" value="{ROW.fortime}" id="fortime" pattern="^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{1,4}$" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" />
-                        <span class="input-group-btn">
+                        <input class="form-control required" type="text" name="fortime" value="{ROW.fortime}" id="fortime" pattern="^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{1,4}$" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" /> <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="fortime-btn">
                                 <em class="fa fa-calendar fa-fix"> </em>
                             </button>
@@ -103,23 +108,23 @@
                 <!-- BEGIN: loop -->
                 <tr>
                     <td class="text-center">{VIEW.number}</td>
-                    <td class="text-center">
-                        {VIEW.day_in_weeks}<br />{VIEW.fortime}
+                    <td class="text-center">{VIEW.day_in_weeks}<br />{VIEW.fortime}
                     </td>
                     <td class="text-center">{VIEW.time}</td>
                     <td>{VIEW.content}</td>
                     <td>{VIEW.addtime}</td>
                     <td class="text-center">
-                        <!-- BEGIN: action -->
-                        <i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a>
-                        <!-- END: action -->
+                        <!-- BEGIN: action --> <i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a> <!-- END: action -->
                     </td>
                 </tr>
                 <!-- END: loop -->
             </tbody>
             <thead>
-            <tr><th colspan="6">{LANG.worktime}{TOTAL}</th></tr>
-            </thead></table>
+                <tr>
+                    <th colspan="6">{LANG.worktime}{TOTAL}</th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </form>
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />

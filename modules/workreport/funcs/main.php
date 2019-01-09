@@ -103,17 +103,20 @@ $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DA
 $where = '';
 $per_page = 31;
 $page = $nv_Request->get_int('page', 'post,get', 1);
-$current_month = date('mY', NV_CURRENTTIME);
+$current_month = date('m', NV_CURRENTTIME);
+$current_year = date('Y', NV_CURRENTTIME);
 $array_users = array();
 
 $array_search = array(
-    'month' => $nv_Request->get_string('month', 'get', date('mY', NV_CURRENTTIME)),
+    'month' => $nv_Request->get_string('month', 'get', date('m', NV_CURRENTTIME)),
+    'year' => $nv_Request->get_string('year', 'get', date('Y', NV_CURRENTTIME)),
     'userid' => $nv_Request->get_int('userid', 'get', $user_info['userid'])
 );
 
-if (!empty($array_search['month'])) {
-    $base_url .= '&month=' . $array_search['month'];
+if (!empty($array_search['month']) && !empty($array_search['year'])) {
+    $base_url .= '&month=' . $array_search['month'] . $array_search['year'];
     $current_month = $array_search['month'];
+    $current_year = $array_search['year'];
 }
 
 if (!empty($array_search['userid'])) {
@@ -128,7 +131,7 @@ $where .= nv_workreport_premission();
 $db->sqlreset()
     ->select('COUNT(*)')
     ->from(NV_PREFIXLANG . '_' . $module_data . '')
-    ->where('DATE_FORMAT(FROM_UNIXTIME(fortime),"%m%Y")=' . $current_month . $where);
+    ->where('DATE_FORMAT(FROM_UNIXTIME(fortime),"%m%Y")=' . $current_month . $current_year . $where);
 
 $sth = $db->prepare($db->sql());
 
@@ -144,7 +147,6 @@ $sth = $db->prepare($db->sql());
 $sth->execute();
 
 //tinh tong thoi gian lam viec
-
 $row['fortime'] = !empty($row['fortime']) ? nv_date('d/m/Y', $row['fortime']) : '';
 
 $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
@@ -190,11 +192,20 @@ $xtpl->assign('TOTAL', $total);
 
 for ($i = 1; $i <= 12; $i++) {
     $xtpl->assign('MONTH', array(
-        'index' => $i . date('Y', NV_CURRENTTIME),
+        'index' => $i,
         'value' => sprintf($lang_module['month'], $i),
-        'selected' => $current_month == $i . date('Y', NV_CURRENTTIME) ? 'selected="selected"' : ''
+        'selected' => $current_month == $i ? 'selected="selected"' : ''
     ));
     $xtpl->parse('main.month');
+}
+
+for ($i = 2018; $i <= (date('Y', NV_CURRENTTIME)); $i++) {
+    $xtpl->assign('YEAR', array(
+        'index' => $i,
+        'value' => sprintf($lang_module['year'], $i),
+        'selected' => $current_year == $i ? 'selected="selected"' : ''
+    ));
+    $xtpl->parse('main.year');
 }
 
 if (!empty($workforce_list)) {
