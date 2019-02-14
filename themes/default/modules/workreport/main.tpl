@@ -7,16 +7,16 @@
         <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}" /> <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" /> <input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}" />
         <!-- END: no_rewrite -->
         <div class="row">
-            <div class="col-xs-24 col-md-4">
+            <div class="col-xs-24 col-md-3">
                 <div class="form-group">
                     <select class="form-control" name="year">
                         <!-- BEGIN: year -->
-                        <option value="{YEAR.index}"{YEAR.selected}>{YEAR.value}</option>
+                        <option value="{YEAR.index}"{YEAR.selected}>{YEAR.index}</option>
                         <!-- END: year -->
                     </select>
                 </div>
             </div>
-            <div class="col-xs-24 col-md-4">
+            <div class="col-xs-24 col-md-3">
                 <div class="form-group">
                     <select class="form-control" name="month">
                         <!-- BEGIN: month -->
@@ -74,12 +74,10 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.content}</strong></label>
-                <div class="col-sm-19 col-md-20">
-                    <textarea class="form-control required" style="height: 100px;" cols="75" rows="5" name="content">{ROW.content}</textarea>
-                </div>
+                <div class="col-sm-19 col-md-20 required">{ROW.content}</div>
             </div>
             <div class="form-group text-center">
-                <input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" />
+                <input class="btn btn-primary " name="submit" type="submit" value="{LANG.save}" />
             </div>
         </div>
     </div>
@@ -108,13 +106,16 @@
                 <!-- BEGIN: loop -->
                 <tr>
                     <td class="text-center">{VIEW.number}</td>
-                    <td class="text-center">{VIEW.day_in_weeks}<br />{VIEW.fortime}
+                    <td class="text-center">
+                        {VIEW.day_in_weeks}<br />{VIEW.fortime}
                     </td>
                     <td class="text-center">{VIEW.time}</td>
                     <td>{VIEW.content}</td>
                     <td>{VIEW.addtime}</td>
                     <td class="text-center">
-                        <!-- BEGIN: action --> <i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a> <!-- END: action -->
+                        <!-- BEGIN: action -->
+                        <i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a>
+                        <!-- END: action -->
                     </td>
                 </tr>
                 <!-- END: loop -->

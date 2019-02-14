@@ -23,3 +23,6 @@ $lang_module['config_work_groups'] = 'Nhóm được phép truy cập';
 $lang_module['config_admin_groups'] = 'Nhóm quản lý';
 $lang_module['config_allow_time'] = 'Thời gian sửa báo cáo (phút)';
 $lang_module['config_allow_days'] = 'Số ngày báo cáo trễ';
+$lang_module['type_content'] = 'Phương thức nội dung';
+$lang_module['textarea'] = 'Textarea';
+$lang_module['editor'] = 'Editor';

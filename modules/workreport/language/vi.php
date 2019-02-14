@@ -29,7 +29,6 @@ $lang_module['fortime'] = 'Ngày báo cáo';
 $lang_module['content'] = 'Nội dung công việc';
 $lang_module['addtime'] = 'Thời gian báo cáo';
 $lang_module['month'] = 'Tháng %d';
-$lang_module['year'] = 'Năm %s';
 $lang_module['admin'] = 'Xem theo ngày';
 $lang_module['time'] = 'Thời gian làm việc (giờ)';
 $lang_module['worktime'] = 'Tổng thời gian làm việc (giờ): ';

@@ -26,7 +26,9 @@ $data = array(
     'work_groups' => '4',
     'admin_groups' => '1',
     'allow_time' => '1440',
-    'allow_days' => '1'
+    'allow_days' => '1',
+    'type_content' => '1'
+    
 );
 
 foreach ($data as $config_name => $config_value) {

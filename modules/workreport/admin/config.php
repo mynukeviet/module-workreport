@@ -18,7 +18,8 @@ if ($nv_Request->isset_request('savesetting', 'post')) {
     $data['admin_groups'] = !empty($data['work_groups']) ? implode(',', $data['admin_groups']) : '';
     $data['allow_time'] = $nv_Request->get_int('allow_time', 'post', 86400);
     $data['allow_days'] = $nv_Request->get_int('allow_days', 'post', 1);
-
+    $data['type_content'] = $nv_Request->get_int('type_content', 'post', 1);
+    
     $sth = $db->prepare("UPDATE " . NV_CONFIG_GLOBALTABLE . " SET config_value = :config_value WHERE lang = '" . NV_LANG_DATA . "' AND module = :module_name AND config_name = :config_name");
     $sth->bindParam(':module_name', $module_name, PDO::PARAM_STR);
     foreach ($data as $config_name => $config_value) {
@@ -26,17 +27,32 @@ if ($nv_Request->isset_request('savesetting', 'post')) {
         $sth->bindParam(':config_value', $config_value, PDO::PARAM_STR);
         $sth->execute();
     }
-
+    
     nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['config'], "Config", $admin_info['userid']);
     $nv_Cache->delMod('settings');
-
+    
     Header("Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . '=' . $op);
     die();
 }
 
+
 $xtpl = new XTemplate($op . ".tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file);
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('DATA', $array_config);
+
+$array_type_content = array(
+    1 => $lang_module['textarea'],
+    2 => $lang_module['editor']
+);
+
+foreach ($array_type_content as $key => $title) {
+    $xtpl->assign('OPTION', array(
+        'key' => $key,
+        'title' => $title,
+        'checked' => ($key == $array_config['type_content']) ? ' checked="checked"' : ''
+    ));
+    $xtpl->parse('main.type_content');
+}
 
 $array_config['admin_groups'] = explode(',', $array_config['admin_groups']);
 foreach ($groups_list as $group_id => $grtl) {
