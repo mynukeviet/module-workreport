@@ -230,7 +230,7 @@ $begin_year = date('Y', filemtime(NV_ROOTDIR . '/' . NV_CONFIG_FILENAME));
 for ($i = date('Y', NV_CURRENTTIME); $i >= $begin_year; $i--) {
     $xtpl->assign('YEAR', array(
         'index' => $i,
-        'selected' => $i == $year ? 'selected="selected"' : ''
+        'selected' => $i == $current_year ? 'selected="selected"' : ''
     ));
     $xtpl->parse('main.year');
 }
