@@ -88,7 +88,9 @@ function nv_workreport_premission($type = 'where')
             return $array_userid;
         }
     } else {
-        $array_userid = array_keys($workforce_list);
+        $array_userid = !empty($workforce_list) ? array_keys($workforce_list) : array(
+            0
+        );
         if ($type == 'where') {
             return ' AND userid IN (' . implode(',', $array_userid) . ')';
         } elseif ($type == 'array_userid') {
