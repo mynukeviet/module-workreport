@@ -38,5 +38,7 @@ $lang_module['error_required_content'] = 'Lỗi: bạn cần nhập dữ liệu 
 $lang_module['error_required_time'] = 'Lỗi: bạn cần nhập dữ liệu cho Thời gian làm việc';
 $lang_module['error_required_fortime'] = 'Lỗi: ngày báo cáo đã có';
 $lang_module['error_allow_fortime'] = 'Lỗi: đã quá thời hạn báo cáo cho ngày %s';
+$lang_module['error_required_workforcelist'] = 'Không tìm thấy danh sách nhân sự';
+$lang_module['error_required_workforcelist_content'] = 'Hệ thống không thể tìm thấy dữ liệu nhân sự, vui lòng cập nhật thêm dữ liệu trước khi sử dụng tính năng này!';
 $lang_module['title_no_premission'] = 'Khu vực không được phép truy cập';
 $lang_module['content_no_premission'] = 'Bạn không được cấp phép để sử dụng tính năng này, vui lòng trở lại';

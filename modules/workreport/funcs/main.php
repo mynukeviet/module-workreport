@@ -9,6 +9,13 @@
  */
 if (!defined('NV_IS_MOD_WORKREPORT')) die('Stop!!!');
 
+if (empty($workforce_list)) {
+    $contents = nv_theme_alert($lang_module['error_required_workforcelist'], $lang_module['error_required_workforcelist_content'], 'warning');
+    include NV_ROOTDIR . '/includes/header.php';
+    echo nv_site_theme($contents);
+    include NV_ROOTDIR . '/includes/footer.php';
+}
+
 if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_request('delete_checkss', 'get')) {
 
     $id = $nv_Request->get_int('delete_id', 'get');

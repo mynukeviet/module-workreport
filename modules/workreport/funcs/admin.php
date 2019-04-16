@@ -9,6 +9,13 @@
  */
 if (!defined('NV_IS_MOD_WORKREPORT')) die('Stop!!!');
 
+if (empty($workforce_list)) {
+    $contents = nv_theme_alert($lang_module['error_required_workforcelist'], $lang_module['error_required_workforcelist_content'], 'warning');
+    include NV_ROOTDIR . '/includes/header.php';
+    echo nv_site_theme($contents);
+    include NV_ROOTDIR . '/includes/footer.php';
+}
+
 $array_data = array();
 $current_day = nv_date('dmY', NV_CURRENTTIME);
 $current_day = $nv_Request->get_string('time', 'get', nv_date('d/m/Y', NV_CURRENTTIME));
@@ -20,7 +27,7 @@ $db->select('userid, content, addtime, time')
 $sth = $db->query($db->sql());
 
 while ($row = $sth->fetch()) {
-	$row['content'] = nv_nl2br($row['content']);
+    $row['content'] = nv_nl2br($row['content']);
     $row['addtime'] = nv_date("H:i d/m/Y", $row['addtime']);
     $array_data[$row['userid']] = $row;
 }
